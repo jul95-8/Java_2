@@ -13,15 +13,9 @@
     <form method="get" action="newuserServlet">
     <h3> Create new user: </h3>
 
-        Login : <label>
-        <input type="text" name="login"/>
-    </label><br/>
-        Password : <label>
-        <input type="password" name="password"/>
-    </label><br/>
-        Confirm password : <label>
-        <input type="password" name="confpass"/>
-    </label><br/>
+        Login : <input type="text" name="login"/><br/>
+        Password : <input type="password" name="password"/><br/>
+        Confirm password : <input type="password" name="confpass"/><br/>
     <input type="submit" value="Create"/><br/>
 
         <p><span class="warning"><%= request.getAttribute("warning")%></span></p>
