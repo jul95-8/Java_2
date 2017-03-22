@@ -18,8 +18,7 @@ public class LoginServlet extends HttpServlet {
 
         if ((req.getCookies().length > 1) && (login.equals(""))) {
 
-            login = req.getCookies()[1].getValue().toString();
-            req.setAttribute("login", login);
+            req.setAttribute("login", req.getCookies()[1].getValue().toString());
             req.getRequestDispatcher("welcomepage.jsp").forward(req, resp);
         } else {
             req.setAttribute("login", login);
