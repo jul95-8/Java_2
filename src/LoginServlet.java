@@ -7,21 +7,19 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-/**
- * Created by Юлия on 17.03.2017.
- */
 
 @WebServlet("/loginServlet")
 
 public class LoginServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, FileNotFoundException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
         if ((req.getCookies().length > 1) && (login.equals(""))) {
 
-            req.setAttribute("login", req.getCookies()[1].getValue().toString());
+            login = req.getCookies()[1].getValue().toString();
+            req.setAttribute("login", login);
             req.getRequestDispatcher("welcomepage.jsp").forward(req, resp);
         } else {
             req.setAttribute("login", login);
@@ -50,6 +48,7 @@ public class LoginServlet extends HttpServlet {
                 }
             }
         }
+        req.setAttribute("warning", "  ");
         req.getRequestDispatcher("newuser.jsp").forward(req, resp);
     }
 
