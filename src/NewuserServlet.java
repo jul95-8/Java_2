@@ -20,27 +20,32 @@ public class NewuserServlet extends HttpServlet{
 
         String path = this.getServletContext().getRealPath("/") + "/users.txt";
 
-        if(password.equals(confpass)){
+        req.setAttribute("login", login);
+
+        if (password.equals(confpass) && !login.equals("")) {
             update(path, login + " " + password);
+            req.setAttribute("warning", "  ");
             req.getRequestDispatcher("welcomepage.jsp").forward(req, resp);
+        } else {
+            req.setAttribute("warning", "Please ensure that your password and your confirm password are the same! ");
+            req.getRequestDispatcher("newuser.jsp").forward(req, resp);
         }
+
     }
 
-    public static void update(String path, String text) throws FileNotFoundException {
+    private static void update(String path, String text) throws FileNotFoundException {
         try {
             StringBuilder sb = new StringBuilder();
             String oldFile = read(path);
             sb.append(oldFile);
             sb.append(text);
             write(path, sb.toString());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void write(String path, String text) throws IOException {
+    private static void write(String path, String text) throws IOException {
         File temp = new File(path);
         try {
             if (!temp.exists()) {
@@ -48,17 +53,14 @@ public class NewuserServlet extends HttpServlet{
             }
             PrintWriter writer = new PrintWriter(temp.getAbsoluteFile());
 
-            try {
-                writer.print(text);
-            } finally {
-                writer.close();
-            }
+            writer.print(text);
+            writer.close();
         } catch(IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static String read(String path) throws FileNotFoundException {
+    private static String read(String path) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(path));
         String temp = "";
         while (scanner.hasNext()) {
